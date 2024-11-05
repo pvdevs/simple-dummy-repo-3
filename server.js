@@ -27,8 +27,8 @@ async function printNames() {
     }
 }
 
-// Call printNames when the server starts
-printNames();
+// Call printNames every 10 seconds
+setInterval(printNames, 10000); // 10000 milliseconds = 10 seconds
 
 // Serve index.html on the root route
 app.get('/', (req, res) => {
