@@ -16,19 +16,24 @@ const pool = new Pool({
     database: process.env.DB_NAME,
 });
 
-// Query the database and print 5 names to the console
-async function printNames() {
+// Variable to store the names
+let namesCache = [];
+
+// Query the database and update the names cache
+(async function printNames() {
     try {
         const result = await pool.query('SELECT name FROM people LIMIT 5');
-        const names = result.rows.map(row => row.name);
-        console.log("Names from database:", names);
+        namesCache = result.rows.map(row => row.name);
+        console.log("Names from database:", namesCache);
     } catch (error) {
         console.error("Error querying database:", error);
     }
-}
+})()
 
-// Call printNames every 10 seconds
-setInterval(printNames, 10000); // 10000 milliseconds = 10 seconds
+// Route to return the names
+app.get('/names', (req, res) => {
+    res.json({ names: namesCache });
+});
 
 // Serve index.html on the root route
 app.get('/', (req, res) => {
