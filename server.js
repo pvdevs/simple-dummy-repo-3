@@ -33,6 +33,7 @@ let namesCache = [];
 // Route to return the names
 app.get('/names', (req, res) => {
     res.json({ names: namesCache });
+    console.log(namesCache)
 });
 
 // Serve index.html on the root route
